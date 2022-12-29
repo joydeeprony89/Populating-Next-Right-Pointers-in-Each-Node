@@ -8,6 +8,7 @@ namespace Populating_Next_Right_Pointers_in_Each_Node
     static void Main(string[] args)
     {
       Node root = new Node(1);
+
       root.left = new Node(2);
       root.left.left = new Node(4);
       root.left.right = new Node(5);
@@ -50,11 +51,14 @@ namespace Populating_Next_Right_Pointers_in_Each_Node
     // at each level we track the prev node and link prev.next = cur
     public Node Connect(Node root)
     {
-      if (root == null) return null;
+      if (root == null) return root;
       Queue<Node> q = new Queue<Node>();
       root.next = null;
-      q.Enqueue(root.left);
-      q.Enqueue(root.right);
+      if (root.left != null)
+        q.Enqueue(root.left);
+      if (root.right != null)
+        q.Enqueue(root.right);
+
       while (q.Count > 0)
       {
         int size = q.Count;
@@ -70,12 +74,15 @@ namespace Populating_Next_Right_Pointers_in_Each_Node
               prev.next = node;
               prev = node;
             }
-            node.next = null;
-            q.Enqueue(node.left);
-            q.Enqueue(node.right);
+            //node.next = null;
+            if (node.left != null)
+              q.Enqueue(node.left);
+            if (node.right != null)
+              q.Enqueue(node.right);
           }
         }
       }
+
       return root;
     }
   }
